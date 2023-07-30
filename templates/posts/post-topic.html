@@ -1,0 +1,57 @@
+{% extends 'posts/base_template.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Sharp-Edge - Topics</title>
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="row-main" style="align-items: stretch;">
+        <div class="col-8 content"> 
+             {% for post in page_obj %}
+                <div class="post-list  row" style="border:1px solid lightgrey">
+                    <div class="post-image col-2">
+                         <img src="{{ post.image.url }}" alt="Featured image" >
+                    </div>                  
+                    <div class="post-detail col-9">
+                        <h3>{{ post.title }}</h3>
+                        <p class="post_info"><i class="fa fa-clock-o"></i> {{ post.created_at.date}} </p> 
+                         <hr style="border: none; border-bottom:1px solid lightgrey ;">
+                        <a href="{% url 'detail' post.slug %}"> <p>{{ post.content|safe|striptags|truncatechars:200 }} <br> <br><span style="background-color: teal;color: #ffffff;padding: 5px 10px;font-weight: 600;">Read More...</span></p> </a>  
+                    </div>    
+                </div>
+                <br>
+            {% endfor %}
+        </div>
+        <div class="col-4 sidebar">
+            <div class="social-media">
+                <h3> Recent Posts</h3>
+                <ul>
+                {% for post in posts %} 
+                    <li><i class="fa fa-volume-off"></i><a href="{% url 'detail' post.slug %}">{{ post.title}}</a> </li>
+                    <hr style="border: none;border-bottom: 1px solid rgb(233, 229, 229);">  
+                {% endfor %}
+                </ul> 
+            </div>
+        </div>
+    </div>
+    
+</main>
+<div class="paginator">
+    <ul> 
+     {% if page_obj.has_previous %}
+         <li><a href="?page=1">&laquo; First</a></li>
+         <li><a href="?page= {{page_obj.previous_page_number}}"> Previous Page</a></li>
+     {% endif %}
+        {% if page_obj.has_next %}
+             <li><a href="?page={{ page_obj.next_page_number }}">Next Page</a></li>
+             <li><a href="?page= {{page_obj.paginator.num_pages }}"> Last &raquo;</a></li>
+        {% endif %}
+    </ul>
+ </div>
+{% endblock %}
+
+
+
+

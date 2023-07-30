@@ -1,0 +1,38 @@
+{% extends 'posts/base_template.html' %}
+{% block title %}
+    <title>{{ post.title }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="row-main wrapper" style="align-items: stretch;">
+        <div class="content ">
+            <h2 class="post-title-detail">{{post.title}}</h2>
+            <p class="post-author"><i class="fa fa-user-circle"></i> <b>{{ post.author }}</b> |&nbsp; <i class="fa fa-clock-o"></i> {{ post.created_at.date}}</p> 
+            <div class="post-image-detail">
+                <img src="{{ post.image}}">
+            </div>
+            <div class="post-detailed">
+                <p>{{post.content|safe}}</p> 
+                  
+            </div>
+        </div>
+   
+        <div class="sidebar">
+            <div class="social-media">
+                <h3> Featured Posts</h3>
+                    <ul>
+                        {% for post in posts%}
+                        <li><i class="fa fa-volume-off"></i><a href="{% url 'detail' post.slug %}">  {{ post.title}}</a> </li>
+                        <hr style="border: none;border-bottom: 1px solid rgb(233, 229, 229);">
+                        {% endfor %}
+                    </ul> 
+            </div>
+            <div class="other-stuff">
+                
+            </div>
+        </div>
+      
+        
+    </div>
+   
+{% endblock %}

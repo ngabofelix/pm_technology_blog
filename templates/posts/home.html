@@ -1,0 +1,74 @@
+{% extends 'posts/base_template.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Sharp-Edge - Welcome</title>
+{% endblock %}
+
+
+{% block content %}
+    {% for message in messages %}
+        <p class="flash_message">{{ message }} <br> <a href="{% url 'home' %}">Okay</a></p>
+    {% endfor %}
+    <div class="row-main">
+        <div class="content"> 
+             {% for post in page_obj %}
+                <div class="post-list " style="border:1px solid lightgrey">
+                    <div class="post-image">
+                         <img src="{{ post.image }}" alt="{{ post.title }}" >
+                    </div>                  
+                    <div class="post-detail"> 
+                       <a style="color: black;" href="{% url 'detail' post.slug %}"> <h3 >{{ post.title }}</h3>
+                        <p class="post_info"> <i class="fa fa-clock-o"></i> {{ post.created_at.date}}</p> <hr style="border: none; border-bottom:1px solid lightgrey ;">
+                        <p>{{ post.content|safe|striptags|truncatechars:200 }} <br> <br><span style="background-color: teal;color: #ffffff;padding: 5px 10px;font-weight: 600;">Read More...</span> </p>  
+                      </a> 
+                    </div>    
+                </div>
+                <br>
+             {% endfor %}
+        </div>
+        <div class=" sidebar">
+            <div  class="detail-postt social-media">
+                <h3> Featured Posts</h3>
+                <ul>
+                {% for post in high_views_posts %}
+                    <li><i class="fa fa-volume-off"></i><a href="{% url 'detail' post.slug %}">{{ post.title}}</a> </li> 
+                    <hr style="border: none;border-bottom: 1px solid rgb(233, 229, 229);">
+                {% endfor %}
+                </ul> 
+                <br>
+            </div>
+            <div class=" tips_style">
+                <h3> <span style="font-size: 24px; color: thistle;"class="fa fa-lightbulb-o">&nbsp;</span>&nbsp; Tips</h3>
+                <ul>
+                {% for tip_post in tips_posts %}
+                
+                <li><i class="fa fa-volume-off"></i>
+                    <a href="{% url 'detail' tip_post.slug %}">{{ tip_post.title}}</a>
+                    <hr style="border: none;border-bottom: 1px solid #23a1a7">
+                </li>
+                
+                {% endfor %}
+                </ul> 
+                <br>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+    <div class="paginator">
+       <ul> 
+        {% if page_obj.has_previous %}
+            <li><a href="?page=1">&laquo; First</a></li>
+            <li><a href="?page= {{page_obj.previous_page_number}}"> Previous Page</a></li>
+        {% endif %}
+           {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">Next Page</a></li>
+                <li><a href="?page= {{page_obj.paginator.num_pages }}"> Last &raquo;</a></li>
+           {% endif %}
+       </ul>
+    </div>
+     
+{% endblock %}
+

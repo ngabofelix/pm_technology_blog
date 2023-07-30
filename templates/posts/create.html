@@ -1,0 +1,70 @@
+{% extends 'admins/base_admin_template.html' %}
+
+
+{% block title %}
+    <title>Sharp-Edge || Create a post article</title>
+    <script>window.CKEDITOR_BASEPATH = '/static/js/ckeditor/ckeditor/';</script>
+{% endblock title%}
+
+{% block content%}
+    <div class="admin-wrapper"> 
+            
+        <div class="form_create">
+            <h3>Create  Post Article</h3>
+            <form action="#" method="POST" enctype="multipart/form-data">
+                {% csrf_token%}
+                {{ form.non_field_errors }}
+                <br>
+                <label for=" form.title.id_title">Title</label>
+                <br>
+                {{ form.title}} <br>
+                {{ form.title.errors}}
+                <br> <br>
+                <label for=" form.content.id_content">Content</label>
+                
+                {{ form.content.errors}}
+                <br>
+                {{ form.media }}
+                {{ form.content}}
+                
+                <br> <br>
+                <label for="form.slug.id_slug">Slug</label> <br>
+                {{ form.slug }}
+                <br> <br>
+                <label for=" form.image.id_image">Upload Image</label>
+                
+                {{ form.image.errors}}
+                <br>
+                <span>{{ form.image}} </span>
+               
+                <label for=" form.published.id_published">Published:</label> 
+                <span class="published">{{ form.published}}</span> 
+                {{ form.published.errors}}
+                <br> <br>
+                <label for=" form.post_topic.id_post_topic">Post Topic</label>
+                
+                {{ form.post_topic.errors}}
+                <br>
+                {{ form.post_topic}}
+                <br> <br>
+                
+                <button type="submit">Create Post</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const titleInput = document.querySelector('input[name=title]');
+        const slugInput = document.querySelector('input[name=slug]');
+
+        const slugify = (val)=>{
+            return val.toString().toLowerCase().trim()
+                .replace(/&/g,'-and-')
+                .replace(/[\s\W-]+/g,'-')
+        };
+
+        titleInput.addEventListener('keyup', (e)=>{
+            slugInput.setAttribute('value',slugify(titleInput.value))
+        });
+    </script>
+{% endblock %}
