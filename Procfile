@@ -1,0 +1,1 @@
+web: gunicorn pmtechnology.wsgi --log-file -
